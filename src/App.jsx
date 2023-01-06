@@ -182,8 +182,6 @@ function App() {
             <p className="text-xl text-black text-center font-bold">{formatMoney(pagoCPU)}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total a Disk</p>
             <p className="text-xl text-black text-center font-bold">{formatMoney(pagoDisk)}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total a pagar</p>
-            <p className="text-xl text-black text-center font-bold">Dinero</p>
         </div>
     </div>
 
