@@ -7,7 +7,7 @@ function App() {
     const [Ram, setRam] = useState(512)
     const [CPU, setCPU] = useState(1)
     const [Disk , setDisk] = useState(20)
-    const [tiempo , setTiempo] = useState(1)
+    const [tiempo , setTiempo] = useState(31)
     const [pagoRam , setPagoRam] = useState(0.05)
     const [pagoCPU , setPagoCPU] = useState(0.04)
     const [pagoDisk , setPagoDisk] = useState(0.01)
@@ -161,19 +161,21 @@ function App() {
                 setTiempo(Number(e.target.value))
             }}
             >
-                <option value="1">1 Dia</option>
-                <option value="7">1 Semana</option>
                 <option value="31">1 Mes</option>
+                <option value="7">1 Semana</option>
+                <option value="1">1 Dia</option>
             </select>
         </div>
         <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
             <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
-            <p className="text-xl text-gray-500 text-center font-bold">Total en RAM</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total en RAM:</p>
             <p className="text-xl text-black text-center font-bold">{pagoRam}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total a CPU</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total a CPU:</p>
             <p className="text-xl text-black text-center font-bold">{pagoCPU}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total a Disk</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total a Disk:</p>
             <p className="text-xl text-black text-center font-bold">{pagoDisk}</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total:</p>
+            <p className="text-xl text-black text-center font-bold">{pagoDisk + pagoRam + pagoCPU}</p>
         </div>
     </div>
 
