@@ -17,17 +17,17 @@ const calculateTotal = (ram,cpu,disk , time) => {
     let totalDisk = 0.01
 
     if(time === 1){
-        totalRam = ram  * precioRam / convert
-        totalCPU = cpu * precioCPU / convert
-        totalDisk = disk * precioDisk / convert
+        totalRam = (ram  * precioRam / convert) * 24
+        totalCPU = (cpu * precioCPU) * 24
+        totalDisk = (disk * precioDisk) * 24
     }else if (time === 7){
-        totalRam = (ram  * precioRam / convert) * 7
-        totalCPU = (cpu * precioCPU / convert) * 7
-        totalDisk = (disk * precioDisk / convert) * 7
+        totalRam = (ram  * precioRam / convert) * 168
+        totalCPU = (cpu * precioCPU) * 168
+        totalDisk = (disk * precioDisk) * 168
     }else if(time === 31){
-        totalRam = (ram  * precioRam / convert) * 31
-        totalCPU = (cpu * precioCPU / convert) * 31
-        totalDisk = (disk * precioDisk / convert) * 31
+        totalRam = (ram  * precioRam / convert) * 730
+        totalCPU = (cpu * precioCPU) * 730
+        totalDisk = (disk * precioDisk) * 730
     }
 
     return [totalRam,totalCPU,totalDisk]
