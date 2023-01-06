@@ -14,18 +14,11 @@ function App() {
 
     useEffect(() => {
         const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
+        console.log(tiempo)
         setPagoRam(totalpago[0])
-    }, [Ram ,tiempo]);
-
-    useEffect(() => {
-        const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
         setPagoCPU(totalpago[1])
-    }, [CPU , tiempo]);
-
-    useEffect(() => {
-        const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
         setPagoDisk(totalpago[2])
-    }, [Disk , tiempo]);
+    }, [Ram ,CPU, Disk, tiempo]);
 
     const minDisk = 20
     const maxDisk = 500
@@ -95,7 +88,7 @@ function App() {
     }
     return (
     <div className="flex justify-between my-5 flex-wrap">
-        <div className="m-10 bg-white shadow p-5">
+        <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
             <Header />
             <div className="flex justify-between my-6">
                 <Buttons
@@ -165,15 +158,15 @@ function App() {
             <select className="mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg text-center text-xl font-bold"
             value={tiempo}
             onChange={e => {
-                setTiempo(e.target.value)
+                setTiempo(Number(e.target.value))
             }}
             >
-                <option value="24">1 Dia</option>
+                <option value="1">1 Dia</option>
                 <option value="7">1 Semana</option>
                 <option value="31">1 Mes</option>
             </select>
         </div>
-        <div className="m-10 bg-white shadow p-5">
+        <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
             <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
             <p className="text-xl text-gray-500 text-center font-bold">Total en RAM</p>
             <p className="text-xl text-black text-center font-bold">{pagoRam}</p>
