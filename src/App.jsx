@@ -94,7 +94,7 @@ function App() {
         setCPU(result)
     }
     return (
-    <div className="flex justify-between my-5">
+    <div className="flex justify-between my-5 flex-wrap">
         <div className="m-10 bg-white shadow p-5">
             <Header />
             <div className="flex justify-between my-6">
@@ -114,7 +114,7 @@ function App() {
                    min={minRam}
                    max={maxRam}
                    value={Ram}
-                   step="100"
+                   step="10"
                    onChange={changeRam}
             />
             <p className="mb-3 text-center">{Ram} MB</p>
@@ -137,7 +137,7 @@ function App() {
                    value={CPU}
                    onChange={changeCPU}
             />
-            <p className="mb-3 text-center">{CPU} Ghz</p>
+            <p className="mb-3 text-center">{CPU} Cores(Nucleos)</p>
             <div className="flex justify-between my-6">
                 <Buttons
                     operador= '-'
@@ -155,7 +155,7 @@ function App() {
                    min={minDisk}
                    max={maxDisk}
                    value={Disk}
-                   step="50"
+                   step="20"
                    onChange={changeDisk}
             />
             <p className="mb-3 text-center">{Disk} GB</p>

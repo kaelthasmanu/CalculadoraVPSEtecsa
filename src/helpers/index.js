@@ -22,7 +22,10 @@ const calculateTotal = (ram,cpu,disk , time) => {
         totalDisk = disk * precioDisk / convert
     }else if (time === 7){
 
+    }else if(time === 31){
+
     }
+
     return [totalRam,totalCPU,totalDisk]
 }
 
