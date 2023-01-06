@@ -169,13 +169,13 @@ function App() {
         <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
             <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
             <p className="text-xl text-gray-500 text-center font-bold">Total en RAM:</p>
-            <p className="text-xl text-black text-center font-bold">{pagoRam}</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoRam))}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total a CPU:</p>
-            <p className="text-xl text-black text-center font-bold">{pagoCPU}</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoCPU))}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total a Disk:</p>
-            <p className="text-xl text-black text-center font-bold">{pagoDisk}</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk))}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total:</p>
-            <p className="text-xl text-black text-center font-bold">{pagoDisk + pagoRam + pagoCPU}</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk + pagoRam + pagoCPU))}</p>
             <h1 className="p-5 text-5xl text-gray-500 text-center">Desarrollado por :</h1>
             <p className="text-xl text-gray-500 text-center font-bold">Manuel</p>
             <p className="text-xl text-gray-500 text-center font-bold">Para sugerencias usernameTelegram:</p>
