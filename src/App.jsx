@@ -19,7 +19,6 @@ function App() {
 
     useEffect(() => {
         const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
-        console.log(totalpago[1])
         setPagoCPU(totalpago[1])
     }, [CPU , tiempo]);
 
@@ -161,7 +160,7 @@ function App() {
             />
             <p className="mb-3 text-center">{Disk} GB</p>
             <h2 className="text-2xl text-gray-500 text-center">
-                Elige un el tiempo a calcular
+                Elige el tiempo a calcular
             </h2>
             <select className="mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg text-center text-xl font-bold"
             value={tiempo}
@@ -177,11 +176,11 @@ function App() {
         <div className="m-10 bg-white shadow p-5">
             <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
             <p className="text-xl text-gray-500 text-center font-bold">Total en RAM</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoRam)}</p>
+            <p className="text-xl text-black text-center font-bold">{pagoRam}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total a CPU</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoCPU)}</p>
+            <p className="text-xl text-black text-center font-bold">{pagoCPU}</p>
             <p className="text-xl text-gray-500 text-center font-bold">Total a Disk</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoDisk)}</p>
+            <p className="text-xl text-black text-center font-bold">{pagoDisk}</p>
         </div>
     </div>
 

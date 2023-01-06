@@ -12,14 +12,16 @@ const formatMoney = (valor) => {
 }
 
 const calculateTotal = (ram,cpu,disk , time) => {
-    let totalRam = 512
-    let totalCPU = 1
-    let totalDisk = 20
+    let totalRam = 0.05
+    let totalCPU = 0.04
+    let totalDisk = 0.01
 
     if(time === 1){
         totalRam = ram  * precioRam / convert
         totalCPU = cpu * precioCPU / convert
         totalDisk = disk * precioDisk / convert
+    }else if (time === 7){
+
     }
     return [totalRam,totalCPU,totalDisk]
 }
