@@ -25,9 +25,9 @@ const calculateTotal = (ram,cpu,disk , time) => {
         totalCPU = (cpu * precioCPU) * 168
         totalDisk = (disk * precioDisk) * 168
     }else if(time === 31){
-        totalRam = (ram  * precioRam / convert) * 730
-        totalCPU = (cpu * precioCPU) * 730
-        totalDisk = (disk * precioDisk) * 730
+        totalRam = (ram  * precioRam / convert) * 720
+        totalCPU = (cpu * precioCPU) * 720
+        totalDisk = (disk * precioDisk) * 720
     }
 
     return [totalRam,totalCPU,totalDisk]
