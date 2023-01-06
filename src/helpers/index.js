@@ -21,9 +21,6 @@ const calculateTotal = (ram,cpu,disk , time) => {
         totalCPU = cpu * precioCPU / convert
         totalDisk = disk * precioDisk / convert
     }
-    //console.log(totalRam)
-    //console.log(totalCPU)
-    //console.log(totalDisk)
     return [totalRam,totalCPU,totalDisk]
 }
 
