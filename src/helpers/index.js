@@ -1,5 +1,8 @@
 const convert = 1024
 const precioRam = 0.05
+const precioDisk = 0.01
+const precioCPU = 0.04
+
 const formatMoney = (valor) => {
     const formatter = new Intl.NumberFormat('en-US',{
         style:'currency',
@@ -8,16 +11,24 @@ const formatMoney = (valor) => {
     return formatter.format(valor)
 }
 
-const calculateTotal = (cant, plazo) => {
-    let total
+const calculateTotal = (ram,cpu,disk , time) => {
+    let totalRam = 512
+    let totalCPU = 1
+    let totalDisk = 20
 
-    if(plazo === 24){
-        total = cant  * precioRam / convert
-        console.log(total)
+    if(time === 1){
+        totalRam = ram  * precioRam / convert
+        totalCPU = cpu * precioCPU / convert
+        totalDisk = disk * precioDisk / convert
     }
-    return total
+    //console.log(totalRam)
+    //console.log(totalCPU)
+    //console.log(totalDisk)
+    return [totalRam,totalCPU,totalDisk]
 }
 
 export {
-    formatMoney
+    formatMoney,
+    calculateTotal
+
 }

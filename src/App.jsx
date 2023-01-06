@@ -1,12 +1,32 @@
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import Header from "./components/Header.jsx"
 import Buttons from "./components/buttons.jsx";
+import {formatMoney , calculateTotal } from "./helpers"
 
 function App() {
     const [Ram, setRam] = useState(512)
     const [CPU, setCPU] = useState(1)
     const [Disk , setDisk] = useState(20)
     const [tiempo , setTiempo] = useState(1)
+    const [pagoRam , setPagoRam] = useState(0.05)
+    const [pagoCPU , setPagoCPU] = useState(0.04)
+    const [pagoDisk , setPagoDisk] = useState(0.01)
+
+    useEffect(() => {
+        const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
+        setPagoRam(totalpago[0])
+    }, [Ram ,tiempo]);
+
+    useEffect(() => {
+        const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
+        console.log(totalpago[1])
+        setPagoCPU(totalpago[1])
+    }, [CPU , tiempo]);
+
+    useEffect(() => {
+        const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
+        setPagoDisk(totalpago[2])
+    }, [Disk , tiempo]);
 
     const minDisk = 20
     const maxDisk = 500
@@ -95,6 +115,7 @@ function App() {
                    min={minRam}
                    max={maxRam}
                    value={Ram}
+                   step="100"
                    onChange={changeRam}
             />
             <p className="mb-3 text-center">{Ram} MB</p>
@@ -135,6 +156,7 @@ function App() {
                    min={minDisk}
                    max={maxDisk}
                    value={Disk}
+                   step="50"
                    onChange={changeDisk}
             />
             <p className="mb-3 text-center">{Disk} GB</p>
@@ -153,7 +175,15 @@ function App() {
             </select>
         </div>
         <div className="m-10 bg-white shadow p-5">
-            <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resultado del calculo:</h1>
+            <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
+            <p className="text-xl text-gray-500 text-center font-bold">Total en RAM</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoRam)}</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total a CPU</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoCPU)}</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total a Disk</p>
+            <p className="text-xl text-black text-center font-bold">{formatMoney(pagoDisk)}</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Total a pagar</p>
+            <p className="text-xl text-black text-center font-bold">Dinero</p>
         </div>
     </div>
 
