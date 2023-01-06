@@ -178,7 +178,7 @@ function App() {
             <p className="text-xl text-black text-center font-bold">{pagoDisk + pagoRam + pagoCPU}</p>
             <h1 className="p-5 text-5xl text-gray-500 text-center">Hecho por :</h1>
             <p className="text-xl text-gray-500 text-center font-bold">Manuel</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Para sugerencias usernameTelgeram:</p>
+            <p className="text-xl text-gray-500 text-center font-bold">Para sugerencias usernameTelegram:</p>
             <p className="text-xl text-gray-500 text-center font-bold">https://t.me/king_0f_deathhh</p>
         </div>
 
