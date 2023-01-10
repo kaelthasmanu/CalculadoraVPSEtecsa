@@ -2,6 +2,8 @@ import { useState , useEffect } from 'react'
 import Header from "./components/Header.jsx"
 import Buttons from "./components/buttons.jsx";
 import {formatMoney , calculateTotal } from "./helpers"
+import Footer from "./components/footer.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function App() {
     const [Ram, setRam] = useState(512)
@@ -11,6 +13,8 @@ function App() {
     const [pagoRam , setPagoRam] = useState(0.05)
     const [pagoCPU , setPagoCPU] = useState(0.04)
     const [pagoDisk , setPagoDisk] = useState(0.01)
+    const [tecno , setTecno] = useState(0)
+
 
     useEffect(() => {
         const totalpago = calculateTotal(Ram , CPU , Disk , tiempo)
@@ -87,103 +91,124 @@ function App() {
         setCPU(result)
     }
     return (
-    <div className="flex justify-between my-5 flex-wrap">
-        <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
-            <Header />
-            <div className="flex justify-between my-6">
-                <Buttons
-                    operador= '-'
-                    fn={buttonDecrementRAM}
-                />
-                <Buttons
-                    operador= '+'
-                    fn={buttonIncrementRam}
-                />
+        <div>
+            <h1 className=" italic font-sans text-center bg-gray-700 text-white p-4">Calculadora de factura de arrendamiento VPS(Etecsa)</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 justify-items-center">
+                <div className="m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
+                    <Header />
+                    <div className="flex justify-between my-6">
+                        <Buttons
+                            operador= '-'
+                            fn={buttonDecrementRAM}
+                        />
+                        <Buttons
+                            operador= '+'
+                            fn={buttonIncrementRam}
+                        />
+                    </div>
+                    <label htmlFor="Ram" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Ram</label>
+                    <input id="Ram"
+                           type="range"
+                           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                           min={minRam}
+                           max={maxRam}
+                           value={Ram}
+                           step="10"
+                           onChange={changeRam}
+                    />
+                    <p className="mb-3 text-center">{Ram} MB</p>
+                    <div className="flex justify-between my-6">
+                        <Buttons
+                            operador= '-'
+                            fn={buttonDecrementCPU}
+                        />
+                        <Buttons
+                            operador= '+'
+                            fn={buttonIncrementCPU}
+                        />
+                    </div>
+                    <label htmlFor="CPU" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">CPU</label>
+                    <input id="CPU"
+                           type="range"
+                           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                           min={minCPU}
+                           max={maxCPU}
+                           value={CPU}
+                           onChange={changeCPU}
+                    />
+                    <p className="mb-3 text-center">{CPU} Cores(Nucleos)</p>
+                    <div className="flex justify-between my-6">
+                        <Buttons
+                            operador= '-'
+                            fn={buttonDecrementDisk}
+                        />
+                        <Buttons
+                            operador= '+'
+                            fn={buttonIncrementDisk}
+                        />
+                    </div>
+                    <label htmlFor="Disk" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Disk</label>
+                    <input id="Disk"
+                           type="range"
+                           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                           min={minDisk}
+                           max={maxDisk}
+                           value={Disk}
+                           step="20"
+                           onChange={changeDisk}
+                    />
+                    <p className="mb-3 text-center">{Disk} GB</p>
+                    <h2 className="text-2xl text-gray-500 text-center">
+                        Elige el tiempo a calcular
+                    </h2>
+                    <select className="mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg rounded-2xl text-center text-xl font-bold"
+                            value={tiempo}
+                            onChange={e => {
+                                setTiempo(Number(e.target.value))
+                            }}
+                    >
+                        <option value="31">1 Mes</option>
+                        <option value="7">1 Semana</option>
+                        <option value="1">1 Dia</option>
+                    </select>
+                </div>
+                <div>
+                    <div className="m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
+                        <h1 className="text-4xl font-extrabold text-gray-500 text-center">BETA(Not working yet)</h1>
+                        <h1 className="text-4xl font-extrabold text-gray-500 text-center">Tecnologias especificas a instalar:</h1>
+                        <select className="mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg rounded-2xl text-center text-xl font-bold"
+                                value={tecno}
+                                onChange={e => {
+                                    setTecno(Number(e.target.value))
+                                }}  >
+                            <option value="1">VPN(Wireguard)</option>
+                            <option value="2">VPN(OpenVPN)</option>
+                            <option value="3">VPN(Outline)</option>
+                            <option value="4">RouterOS(Mikrotik)</option>
+                            <option value="5">Minecraft</option>
+                            <option value="6">World of Warcraft(3.3.5a)</option>
+                            <option value="7">World of Warcraft(4.3.4)</option>
+                            <option value="8">World of Warcraft(5.4.8)</option>
+                            <option value="9">Openfire(Chat)</option>
+                            <option value="10">Nginx(Web/Proxy inverso)</option>
+                        </select>
+                        <p>Aqui puede selecionar una tecnologia especifica ejemplo una VPN,Web,Juego y el resultado va hacer las especificaciones minimas para su uso</p>
+                    </div>
+                    <div className="m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
+                        <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
+                        <p className="text-xl text-gray-500 text-center font-bold">Total en RAM:</p>
+                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoRam))}</p>
+                        <p className="text-xl text-gray-500 text-center font-bold">Total a CPU:</p>
+                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoCPU))}</p>
+                        <p className="text-xl text-gray-500 text-center font-bold">Total a Disk:</p>
+                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk))}</p>
+                        <p className="text-xl text-gray-500 text-center font-bold">Total:</p>
+                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk + pagoRam + pagoCPU))}</p>
+                    </div>
+                </div>
             </div>
-            <label htmlFor="Ram" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Ram</label>
-            <input id="Ram"
-                   type="range"
-                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                   min={minRam}
-                   max={maxRam}
-                   value={Ram}
-                   step="10"
-                   onChange={changeRam}
-            />
-            <p className="mb-3 text-center">{Ram} MB</p>
-            <div className="flex justify-between my-6">
-                <Buttons
-                    operador= '-'
-                    fn={buttonDecrementCPU}
-                />
-                <Buttons
-                    operador= '+'
-                    fn={buttonIncrementCPU}
-                />
-            </div>
-            <label htmlFor="CPU" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">CPU</label>
-            <input id="CPU"
-                   type="range"
-                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                   min={minCPU}
-                   max={maxCPU}
-                   value={CPU}
-                   onChange={changeCPU}
-            />
-            <p className="mb-3 text-center">{CPU} Cores(Nucleos)</p>
-            <div className="flex justify-between my-6">
-                <Buttons
-                    operador= '-'
-                    fn={buttonDecrementDisk}
-                />
-                <Buttons
-                    operador= '+'
-                    fn={buttonIncrementDisk}
-                />
-            </div>
-            <label htmlFor="Disk" className="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Disk</label>
-            <input id="Disk"
-                   type="range"
-                   className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                   min={minDisk}
-                   max={maxDisk}
-                   value={Disk}
-                   step="20"
-                   onChange={changeDisk}
-            />
-            <p className="mb-3 text-center">{Disk} GB</p>
-            <h2 className="text-2xl text-gray-500 text-center">
-                Elige el tiempo a calcular
-            </h2>
-            <select className="mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg text-center text-xl font-bold"
-            value={tiempo}
-            onChange={e => {
-                setTiempo(Number(e.target.value))
-            }}
-            >
-                <option value="31">1 Mes</option>
-                <option value="7">1 Semana</option>
-                <option value="1">1 Dia</option>
-            </select>
+            <Footer />
         </div>
-        <div className="m-10 bg-white p-5 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
-            <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
-            <p className="text-xl text-gray-500 text-center font-bold">Total en RAM:</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoRam))}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total a CPU:</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoCPU))}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total a Disk:</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk))}</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Total:</p>
-            <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk + pagoRam + pagoCPU))}</p>
-            <h1 className="p-5 text-5xl text-gray-500 text-center">Desarrollado por :</h1>
-            <p className="text-xl text-gray-500 text-center font-bold">Manuel</p>
-            <p className="text-xl text-gray-500 text-center font-bold">Para sugerencias usernameTelegram:</p>
-            <p className="text-xl text-gray-500 text-center font-bold">https://t.me/king_0f_deathhh</p>
-        </div>
-
-    </div>
-
   )
 }
 

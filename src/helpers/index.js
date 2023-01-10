@@ -8,7 +8,7 @@ const formatMoney = (valor) => {
         style:'currency',
         currency: 'CUP'
     })
-    return formatter.format(valor)
+    return `${formatter.format(valor)} $`
 }
 
 const calculateTotal = (ram,cpu,disk , time) => {
