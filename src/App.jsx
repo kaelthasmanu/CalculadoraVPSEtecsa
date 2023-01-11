@@ -1,7 +1,7 @@
 import { useState , useEffect } from 'react'
 import Header from "./components/Header.jsx"
 import Buttons from "./components/buttons.jsx";
-import {formatMoney , calculateTotal } from "./helpers"
+import {formatMoney , calculateTotal} from "./helpers"
 import Footer from "./components/footer.jsx";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -255,13 +255,13 @@ function App() {
                     <div className="m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl">
                         <h1 className="text-4xl font-extrabold text-gray-500 text-center">Resumen de pago:</h1>
                         <p className="text-xl text-gray-500 text-center font-bold">Total en RAM:</p>
-                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoRam))}</p>
+                        <p className="text-xl text-black text-center font-bold">{checked == true ? formatMoney(Math.round(pagoRam - pagoRam*10/100)) : formatMoney(Math.round(pagoRam ))}</p>
                         <p className="text-xl text-gray-500 text-center font-bold">Total a CPU:</p>
-                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoCPU))}</p>
+                        <p className="text-xl text-black text-center font-bold">{checked == true ? formatMoney(Math.round(pagoCPU - pagoCPU*10/100)) : formatMoney(Math.round(pagoCPU))}</p>
                         <p className="text-xl text-gray-500 text-center font-bold">Total a Disk:</p>
-                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk))}</p>
+                        <p className="text-xl text-black text-center font-bold">{checked == true ? formatMoney(Math.round(pagoDisk - pagoDisk*10/100)) : formatMoney(Math.round(pagoDisk))}</p>
                         <p className="text-xl text-gray-500 text-center font-bold">Total:</p>
-                        <p className="text-xl text-black text-center font-bold">{formatMoney(Math.round(pagoDisk + pagoRam + pagoCPU))}</p>
+                        <p className="text-xl text-black text-center font-bold">{checked == true ? formatMoney(Math.round((pagoDisk + pagoRam + pagoCPU)-(pagoDisk + pagoRam + pagoCPU) *10 /100)) : formatMoney(Math.round(pagoDisk + pagoRam + pagoCPU))}</p>
                         <div className="flex items-center mb-4">
                         <input
                             id="default-checkbox"
@@ -277,7 +277,7 @@ function App() {
                             htmlFor="default-checkbox"
                             className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
                         >
-                            Pago por transfermovil con descuento de 10%(beta not working yet)
+                            Pago por transfermovil con descuento de 10%
                         </label>
                         </div>
                     </div>
