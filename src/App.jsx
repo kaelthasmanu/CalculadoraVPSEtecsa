@@ -275,7 +275,7 @@ function App() {
                         />
                         <label
                             htmlFor="default-checkbox"
-                            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                            className="ml-2 text-sm font-medium text-black"
                         >
                             Pago por transfermovil con descuento de 10%
                         </label>
