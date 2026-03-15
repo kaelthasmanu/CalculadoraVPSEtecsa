@@ -174,7 +174,7 @@ function App() {
                   Periodo
                 </label>
                 <select
-                  className="w-full rounded-2xl bg-white/10 border border-white/10 px-4 py-3 text-sm font-semibold text-white shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  className="form-select"
                   value={time}
                   onChange={(e) => setTime(Number(e.target.value))}
                 >
@@ -191,7 +191,7 @@ function App() {
                   Preset de tecnología
                 </label>
                 <select
-                  className="w-full rounded-2xl bg-white/10 border border-white/10 px-4 py-3 text-sm font-semibold text-white shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  className="form-select"
                   value={preset}
                   onChange={(e) => setPreset(Number(e.target.value))}
                 >
