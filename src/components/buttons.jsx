@@ -1,13 +1,20 @@
-function Buttons({operador , fn}){
-    return(
-        <button type='button'
-                className="h-8 w-8 flex items-center justify-center font-bold
-                text-white text-2xl bg-blue-700 rounded-full hover:outline-none
-                hover:ring-2 hover:ring-offset-2 hover:ring-blue-700"
-                onClick={fn}>
-                {operador}
-        </button>
-    )
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+
+function StepperButton({ direction, onClick, disabled, ariaLabel }) {
+  const icon = direction === 'increment' ? faPlus : faMinus;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={ariaLabel}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white shadow-sm transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-indigo-400 disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <FontAwesomeIcon icon={icon} className="text-lg" />
+    </button>
+  );
 }
 
-export default Buttons
+export default StepperButton;

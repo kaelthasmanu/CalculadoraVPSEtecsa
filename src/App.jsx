@@ -1,341 +1,275 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Header from './components/Header.jsx';
-import Buttons from './components/buttons.jsx';
-import { formatMoney, calculateTotal } from './helpers';
 import Footer from './components/footer.jsx';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import StepperButton from './components/buttons.jsx';
+import { formatMoney, calculateTotal } from './helpers';
+
+const PRESETS = {
+  0: { label: 'Sin selección', ram: 512, cpu: 1, disk: 20 },
+  1: { label: 'VPN (Wireguard)', ram: 512, cpu: 1, disk: 20 },
+  2: { label: 'VPN (OpenVPN)', ram: 512, cpu: 1, disk: 20 },
+  3: { label: 'VPN (Outline)', ram: 512, cpu: 1, disk: 1024 },
+  4: { label: 'RouterOS (Mikrotik)', ram: 512, cpu: 1, disk: 20 },
+  5: { label: 'Minecraft', ram: 512, cpu: 1, disk: 20 },
+  6: { label: 'World of Warcraft (3.3.5a)', ram: 2048, cpu: 4, disk: 50 },
+  7: { label: 'World of Warcraft (4.3.4)', ram: 2048, cpu: 4, disk: 50 },
+  8: { label: 'World of Warcraft (5.4.8)', ram: 4096, cpu: 4, disk: 50 },
+  9: { label: 'Openfire (Chat)', ram: 4096, cpu: 4, disk: 50 },
+  10: { label: 'Nginx (Web / Proxy)', ram: 512, cpu: 1, disk: 20 },
+};
+
+const TIME_OPTIONS = [
+  { value: 31, label: '1 Mes' },
+  { value: 7, label: '1 Semana' },
+  { value: 1, label: '1 Día' },
+];
+
+function ResourceControl({
+  label,
+  unit,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  onDecrement,
+  onIncrement,
+}) {
+  const isMin = value <= min;
+  const isMax = value >= max;
+
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-slate-200">{label}</span>
+        <span className="text-sm font-semibold text-white">
+          {value.toLocaleString()} {unit}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-3">
+        <StepperButton
+          direction="decrement"
+          onClick={onDecrement}
+          disabled={isMin}
+          ariaLabel={`Disminuir ${label}`}
+        />
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={onChange}
+          className="slider"
+          aria-label={label}
+        />
+        <StepperButton
+          direction="increment"
+          onClick={onIncrement}
+          disabled={isMax}
+          ariaLabel={`Aumentar ${label}`}
+        />
+      </div>
+    </div>
+  );
+}
 
 function App() {
-	const [Ram, setRam] = useState(512);
-	const [CPU, setCPU] = useState(1);
-	const [Disk, setDisk] = useState(20);
-	const [tiempo, setTiempo] = useState(31);
-	const [pagoRam, setPagoRam] = useState(0.05);
-	const [pagoCPU, setPagoCPU] = useState(0.04);
-	const [pagoDisk, setPagoDisk] = useState(0.01);
-	const [tecno, setTecno] = useState(0);
-	const [checked, setChecked] = useState(false);
+  const [ram, setRam] = useState(512);
+  const [cpu, setCpu] = useState(1);
+  const [disk, setDisk] = useState(20);
+  const [time, setTime] = useState(31);
+  const [discount, setDiscount] = useState(false);
+  const [preset, setPreset] = useState(0);
 
-	useEffect(() => {
-		const totalpago = calculateTotal(Ram, CPU, Disk, tiempo);
-		console.log(tiempo);
-		setPagoRam(totalpago[0]);
-		setPagoCPU(totalpago[1]);
-		setPagoDisk(totalpago[2]);
-	}, [Ram, CPU, Disk, tiempo]);
+  const minRam = 512;
+  const maxRam = 16384;
+  const minCpu = 1;
+  const maxCpu = 8;
+  const minDisk = 20;
+  const maxDisk = 500;
 
-	useEffect(() => {});
+  useEffect(() => {
+    const presetValues = PRESETS[preset];
+    if (presetValues) {
+      setRam(presetValues.ram);
+      setCpu(presetValues.cpu);
+      setDisk(presetValues.disk);
+    }
+  }, [preset]);
 
-	useEffect(() => {
-		if (tecno == 1) {
-			setCPU(1);
-			setDisk(20);
-			setRam(512);
-		} else if (tecno == 2) {
-			setCPU(1);
-			setDisk(20);
-			setRam(512);
-		} else if (tecno == 3) {
-			setCPU(1);
-			setDisk(20);
-			setRam(1024);
-		} else if (tecno == 4) {
-			setCPU(1);
-			setDisk(20);
-			setRam(512);
-		} else if (tecno == 5) {
-			setCPU(1);
-			setDisk(20);
-			setRam(512);
-		} else if (tecno == 6) {
-			setCPU(4);
-			setDisk(50);
-			setRam(2048);
-		} else if (tecno == 7) {
-			setCPU(4);
-			setDisk(50);
-			setRam(2048);
-		} else if (tecno == 8) {
-			setCPU(4);
-			setDisk(50);
-			setRam(4096);
-		} else if (tecno == 9) {
-			setCPU(4);
-			setDisk(50);
-			setRam(4096);
-		} else if (tecno == 10) {
-			setCPU(1);
-			setDisk(20);
-			setRam(512);
-		}
-	}, [tecno]);
+  const [pagoRam, pagoCpu, pagoDisk] = useMemo(
+    () => calculateTotal(ram, cpu, disk, time),
+    [ram, cpu, disk, time]
+  );
 
-	const minDisk = 20;
-	const maxDisk = 500;
-	const minRam = 512;
-	const maxRam = 16384;
-	const minCPU = 1;
-	const maxCPU = 8;
-	const STEP = 1;
+  const factor = discount ? 0.9 : 1;
+  const totalRam = Math.round(pagoRam * factor);
+  const totalCpu = Math.round(pagoCpu * factor);
+  const totalDisk = Math.round(pagoDisk * factor);
+  const total = totalRam + totalCpu + totalDisk;
 
-	function changeRam(e) {
-		setRam(+e.target.value);
-	}
-	function changeCPU(e) {
-		setCPU(+e.target.value);
-	}
-	function changeDisk(e) {
-		setDisk(+e.target.value);
-	}
+  return (
+    <div className="min-h-screen flex flex-col">
+      <header className="border-b border-white/10">
+        <div className="mx-auto max-w-6xl px-4 py-10 text-center">
+          <Header />
+          <p className="mt-3 text-sm text-slate-200 max-w-2xl mx-auto">
+            Ajusta los recursos de tu VPS y calcula tu factura de manera instantánea.
+            Activa el descuento por Transfermóvil para ver el precio con rebaja.
+          </p>
+        </div>
+      </header>
 
-	function buttonIncrementRam() {
-		const result = Ram + STEP;
-		if (result > maxRam) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setRam(result);
-	}
-	function buttonDecrementRAM() {
-		const result = Ram - STEP;
-		if (result < minRam) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setRam(result);
-	}
-	function buttonIncrementDisk() {
-		const result = Disk + STEP;
-		if (result > maxDisk) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setDisk(result);
-	}
-	function buttonDecrementDisk() {
-		const result = Disk - STEP;
-		if (result < minDisk) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setDisk(result);
-	}
-	function buttonIncrementCPU() {
-		const result = CPU + STEP;
-		if (result > maxCPU) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setCPU(result);
-	}
-	function buttonDecrementCPU() {
-		const result = CPU - STEP;
-		if (result < minCPU) {
-			alert('Cantidad no valida');
-			return;
-		}
-		setCPU(result);
-	}
-	return (
-		<div className='min-h-screen flex flex-col justify-between'>
-			<h1 className=' italic font-sans text-center bg-gray-700 text-white p-4'>
-				Calculadora de factura de arrendamiento VPS(Etecsa)
-			</h1>
-			<div className='grid grid-cols-1 md:grid-cols-2 justify-items-center'>
-				<div className='m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl'>
-					<Header />
-					<div className='flex justify-between my-6'>
-						<Buttons operador='-' fn={buttonDecrementRAM} />
-						<Buttons operador='+' fn={buttonIncrementRam} />
-					</div>
-					<label
-						htmlFor='Ram'
-						className='block mb-2 text-sm font-medium text-gray-900 dark:text-black'
-					>
-						Ram
-					</label>
-					<input
-						id='Ram'
-						type='range'
-						className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
-						min={minRam}
-						max={maxRam}
-						value={Ram}
-						step='10'
-						onChange={changeRam}
-					/>
-					<p className='mb-3 text-center'>{Ram} MB</p>
-					<div className='flex justify-between my-6'>
-						<Buttons operador='-' fn={buttonDecrementCPU} />
-						<Buttons operador='+' fn={buttonIncrementCPU} />
-					</div>
-					<label
-						htmlFor='CPU'
-						className='block mb-2 text-sm font-medium text-gray-900 dark:text-black'
-					>
-						CPU
-					</label>
-					<input
-						id='CPU'
-						type='range'
-						className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
-						min={minCPU}
-						max={maxCPU}
-						value={CPU}
-						onChange={changeCPU}
-					/>
-					<p className='mb-3 text-center'>{CPU} Cores(Nucleos)</p>
-					<div className='flex justify-between my-6'>
-						<Buttons operador='-' fn={buttonDecrementDisk} />
-						<Buttons operador='+' fn={buttonIncrementDisk} />
-					</div>
-					<label
-						htmlFor='Disk'
-						className='block mb-2 text-sm font-medium text-gray-900 dark:text-black'
-					>
-						Disk
-					</label>
-					<input
-						id='Disk'
-						type='range'
-						className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700'
-						min={minDisk}
-						max={maxDisk}
-						value={Disk}
-						step='20'
-						onChange={changeDisk}
-					/>
-					<p className='mb-3 text-center'>{Disk} GB</p>
-					<h2 className='text-2xl text-gray-500 text-center'>
-						Elige el tiempo a calcular
-					</h2>
-					<select
-						className='mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg rounded-2xl text-center text-xl font-bold'
-						value={tiempo}
-						onChange={(e) => {
-							setTiempo(Number(e.target.value));
-						}}
-					>
-						<option value='31'>1 Mes</option>
-						<option value='7'>1 Semana</option>
-						<option value='1'>1 Dia</option>
-					</select>
-				</div>
-				<div>
-					<div className='m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl'>
-						<h1 className='text-4xl font-extrabold text-gray-500 text-center'>
-							Tecnologias especificas a instalar:
-						</h1>
-						<select
-							className='mt-5 w-full p-2 bg-white border border-gray-300 rounder-lg rounded-2xl text-center text-xl font-bold'
-							value={tecno}
-							onChange={(e) => {
-								setTecno(Number(e.target.value));
-							}}
-						>
-							<option value='0'>None</option>
-							<option value='1'>VPN(Wireguard)</option>
-							<option value='2'>VPN(OpenVPN)</option>
-							<option value='3'>VPN(Outline)</option>
-							<option value='4'>RouterOS(Mikrotik)</option>
-							<option value='5'>Minecraft</option>
-							<option value='6'>World of Warcraft(3.3.5a)</option>
-							<option value='7'>World of Warcraft(4.3.4)</option>
-							<option value='8'>World of Warcraft(5.4.8)</option>
-							<option value='9'>Openfire(Chat)</option>
-							<option value='10'>Nginx(Web/Proxy inverso)</option>
-						</select>
-						<p className='p-1'>
-							Aqui puede selecionar una tecnologia especifica
-							ejemplo una VPN,Web,Juego y el resultado va hacer
-							las especificaciones minimas para su uso
-						</p>
-					</div>
-					<div className='m-10 bg-white p-2 max-w-sm rounded-3xl overflow-hidden shadow-2xl'>
-						<h1 className='text-4xl font-extrabold text-gray-500 text-center'>
-							Resumen de pago:
-						</h1>
-						<p className='text-xl text-gray-500 text-center font-bold'>
-							Total en RAM:
-						</p>
-						<p className='text-xl text-black text-center font-bold'>
-							{checked == true
-								? formatMoney(
-										Math.round(
-											pagoRam - (pagoRam * 10) / 100
-										)
-								  )
-								: formatMoney(Math.round(pagoRam))}
-						</p>
-						<p className='text-xl text-gray-500 text-center font-bold'>
-							Total a CPU:
-						</p>
-						<p className='text-xl text-black text-center font-bold'>
-							{checked == true
-								? formatMoney(
-										Math.round(
-											pagoCPU - (pagoCPU * 10) / 100
-										)
-								  )
-								: formatMoney(Math.round(pagoCPU))}
-						</p>
-						<p className='text-xl text-gray-500 text-center font-bold'>
-							Total a Disk:
-						</p>
-						<p className='text-xl text-black text-center font-bold'>
-							{checked == true
-								? formatMoney(
-										Math.round(
-											pagoDisk - (pagoDisk * 10) / 100
-										)
-								  )
-								: formatMoney(Math.round(pagoDisk))}
-						</p>
-						<p className='text-xl text-gray-500 text-center font-bold'>
-							Total:
-						</p>
-						<p className='text-xl text-black text-center font-bold'>
-							{checked == true
-								? formatMoney(
-										Math.round(
-											pagoDisk +
-												pagoRam +
-												pagoCPU -
-												((pagoDisk +
-													pagoRam +
-													pagoCPU) *
-													10) /
-													100
-										)
-								  )
-								: formatMoney(
-										Math.round(pagoDisk + pagoRam + pagoCPU)
-								  )}
-						</p>
-						<div className='flex items-center mb-4'>
-							<input
-								id='default-checkbox'
-								type='checkbox'
-								checked={checked}
-								onChange={() => {
-									console.log(checked);
-									setChecked(!checked);
-								}}
-								className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-							/>
-							<label
-								htmlFor='default-checkbox'
-								className='ml-2 text-sm font-medium text-black'
-							>
-								Pago por transfermovil con descuento de 10%
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<Footer />
-		</div>
-	);
+      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10">
+        <div className="grid gap-8 lg:grid-cols-2">
+          <section className="card">
+            <div className="card-header">
+              <h2 className="card-title">Configuración del VPS</h2>
+              <p className="card-subtitle">
+                Ajusta memoria, CPU y disco. Los precios se calculan automáticamente.
+              </p>
+            </div>
+
+            <ResourceControl
+              label="RAM"
+              unit="MB"
+              value={ram}
+              min={minRam}
+              max={maxRam}
+              step={1}
+              onChange={(e) => setRam(Number(e.target.value))}
+              onDecrement={() => setRam((prev) => Math.max(prev - 1, minRam))}
+              onIncrement={() => setRam((prev) => Math.min(prev + 1, maxRam))}
+            />
+
+            <ResourceControl
+              label="CPU"
+              unit="núcleo(s)"
+              value={cpu}
+              min={minCpu}
+              max={maxCpu}
+              step={1}
+              onChange={(e) => setCpu(Number(e.target.value))}
+              onDecrement={() => setCpu((prev) => Math.max(prev - 1, minCpu))}
+              onIncrement={() => setCpu((prev) => Math.min(prev + 1, maxCpu))}
+            />
+
+            <ResourceControl
+              label="Disco"
+              unit="GB"
+              value={disk}
+              min={minDisk}
+              max={maxDisk}
+              step={20}
+              onChange={(e) => setDisk(Number(e.target.value))}
+              onDecrement={() => setDisk((prev) => Math.max(prev - 20, minDisk))}
+              onIncrement={() => setDisk((prev) => Math.min(prev + 20, maxDisk))}
+            />
+
+            <div className="mt-8 space-y-5">
+              <div>
+                <label className="block text-sm font-medium text-slate-200 mb-2">
+                  Periodo
+                </label>
+                <select
+                  className="w-full rounded-2xl bg-white/10 border border-white/10 px-4 py-3 text-sm font-semibold text-white shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  value={time}
+                  onChange={(e) => setTime(Number(e.target.value))}
+                >
+                  {TIME_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-200 mb-2">
+                  Preset de tecnología
+                </label>
+                <select
+                  className="w-full rounded-2xl bg-white/10 border border-white/10 px-4 py-3 text-sm font-semibold text-white shadow-sm focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
+                  value={preset}
+                  onChange={(e) => setPreset(Number(e.target.value))}
+                >
+                  {Object.entries(PRESETS).map(([key, preset]) => (
+                    <option key={key} value={key}>
+                      {preset.label}
+                    </option>
+                  ))}
+                </select>
+                <p className="mt-2 text-xs text-slate-300">
+                  El preset ajusta los valores recomendados para la tecnología seleccionada.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="card">
+            <div className="card-header">
+              <h2 className="card-title">Resumen de la factura</h2>
+              <p className="card-subtitle">
+                Incluye el descuento por Transfermóvil si está activado.
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between rounded-2xl bg-white/10 p-4">
+                <span className="text-sm text-slate-200">RAM</span>
+                <span className="text-base font-semibold text-white">
+                  {formatMoney(totalRam)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-2xl bg-white/10 p-4">
+                <span className="text-sm text-slate-200">CPU</span>
+                <span className="text-base font-semibold text-white">
+                  {formatMoney(totalCpu)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-2xl bg-white/10 p-4">
+                <span className="text-sm text-slate-200">Disco</span>
+                <span className="text-base font-semibold text-white">
+                  {formatMoney(totalDisk)}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-2xl bg-indigo-500/20 p-4">
+                <span className="text-sm font-semibold text-slate-200">Total</span>
+                <span className="text-xl font-bold text-white">{formatMoney(total)}</span>
+              </div>
+
+              <div className="flex items-center justify-between rounded-2xl bg-white/10 p-4">
+                <div className="flex items-center gap-3">
+                  <input
+                    id="discount-toggle"
+                    type="checkbox"
+                    checked={discount}
+                    onChange={() => setDiscount((prev) => !prev)}
+                    className="h-5 w-5 rounded border-white/20 bg-slate-800 text-indigo-400 focus:ring-indigo-500"
+                  />
+                  <label
+                    htmlFor="discount-toggle"
+                    className="text-sm font-medium text-slate-200"
+                  >
+                    Descuento Transfermóvil (10%)
+                  </label>
+                </div>
+
+                {discount && <span className="badge">Aplicado</span>}
+              </div>
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
